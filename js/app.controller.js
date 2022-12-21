@@ -1,9 +1,6 @@
 import { locService } from './services/loc.service.js'
 
 window.onload = onInit
-window.onAddMarker = onAddMarker
-window.onPanTo = onPanTo
-window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onRemoveLoc = onRemoveLoc
 window.panTo = panTo
@@ -20,9 +17,19 @@ function onInit() {
 
 function renderLoc() {
     locService.getLocs()
-    .then(locs => {
-        
-    })
+        .then(locs => {
+            let strHTML = locs.map(loc => `
+            <tr>
+                <td>${loc.name}</td>
+                <td>${loc.createdAt}</td>
+                <td>
+                <button onclick="panTo(${loc.lat},${loc.lng})">Go</button>
+                <button onclick="onRemoveLoc('${loc.id}')">Delete</button>
+                </td>
+            </tr>
+        `)
+            document.querySelector('.locs tbody').innerHTML = strHTML.join('')
+        })
 }
 
 function onSearchLoc(ev) {
@@ -46,19 +53,6 @@ function getPosition() {
     })
 }
 
-function onAddMarker() {
-    console.log('Adding a marker')
-    addMarker({ lat: 32.0749831, lng: 34.9120554 })
-}
-
-function onGetLocs() {
-    locService.getLocs()
-        .then(locs => {
-            console.log('Locations:', locs)
-            document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
-        })
-}
-
 function onGetUserPos() {
     getPosition()
         .then(pos => {
@@ -71,21 +65,13 @@ function onGetUserPos() {
         })
 }
 
-function onPanTo() {
-    console.log('Panning the Map')
-    panTo(35.6895, 139.6917)
-}
 function onRemoveLoc(locId) {
     locService.removeLoc(locId)
         .then(renderLoc)
 }
-// function onMoveToLoc(locId) {
-//     locService.moveToLoc(locId)
-//         .then(renderLoc)
-// }
+
 
 ////////!MAP!///////////
-// Var that is used throughout this Module (not global)
 var gMap
 const API_KEY = 'AIzaSyD2BO1ZuhBV_3IMU5L1VTCoB_c0rRFCkcM'
 
@@ -105,15 +91,6 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                     .then(renderLoc)
             })
         })
-}
-
-function addMarker(loc) {
-    var marker = new google.maps.Marker({
-        position: loc,
-        map: gMap,
-        title: 'Hello World!'
-    })
-    return marker
 }
 
 function panTo(lat, lng) {
