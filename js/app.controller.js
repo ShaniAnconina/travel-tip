@@ -5,20 +5,34 @@ window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onRemoveLoc = onRemoveLoc
+window.panTo = panTo
 
 function onInit() {
     initMap()
         .then(() => {
+            renderLoc()
             console.log('Map is ready')
         })
         .catch(() => console.log('Error: cannot init map'))
 }
 
-function renderLoc(locs) {
+function renderLoc() {
     locService.getLocs()
-    .then(locs => {
-        
-    })
+        .then(locs => {
+            let strHTML = locs.map(loc => `
+        <tr>
+        <td>${loc.name}</td>
+        <td>${loc.createdAt}</td>
+        <td>
+            <button onclick="panTo(${loc.lat}, ${loc.lng})">Go</button>
+            <button onclick="onRemoveLoc('${loc.id}')">Delete</button>
+        </td>
+        </tr>
+
+        `)
+            document.querySelector('.locs tbody').innerHTML = strHTML.join('')
+        })
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -58,6 +72,14 @@ function onPanTo() {
     console.log('Panning the Map')
     panTo(35.6895, 139.6917)
 }
+function onRemoveLoc(locId) {
+    locService.removeLoc(locId)
+        .then(renderLoc)
+}
+// function onMoveToLoc(locId) {
+//     locService.moveToLoc(locId)
+//         .then(renderLoc)
+// }
 
 ////////!MAP!///////////
 // Var that is used throughout this Module (not global)
@@ -73,14 +95,10 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             })
 
             gMap.addListener("click", (mapsMouseEvent) => {
-
-                //todo creat a new place in the loc-serivce
                 const lat = mapsMouseEvent.latLng.toJSON().lat
                 const lng = mapsMouseEvent.latLng.toJSON().lng
                 locService.addLoc({ lat, lng })
                     .then(renderLoc)
-                //todo render the prm to the locations place in the DOM
-
             })
 
         })
