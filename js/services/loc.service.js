@@ -3,7 +3,7 @@ import { storageService } from './async-storage.service.js'
 export const locService = {
     getLocs,
     addLoc,
-    removeLoc,,
+    removeLoc,
     getLocBySearch
 }
 
