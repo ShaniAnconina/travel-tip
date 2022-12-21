@@ -1,14 +1,7 @@
 import { storageService } from './async-storage.service.js'
 
 export const locService = {
-    getLocs,
-    query,
-    get,
-    remove,
-    save,
-    getEmptyPet,
-    getFilterBy,
-    setFilterBy
+    getLocs
 }
 
 
@@ -36,15 +29,6 @@ function addLoc(loc) {
     }
 }
 
-
-
-function addLoc(loc) {
-    if (loc.id) {
-        return storageService.put(PET_KEY, loc)
-    } else {
-        return storageService.post(LOC_KEY,loc)
-    }
-}
 
 // GET לך תביא
 // REMOVE למחוק
