@@ -17,7 +17,7 @@
                 <input class="search-box" type="text" placeholder="Enter location">
                 <button>GO</button>
             </form>
-            <button>My location</button>
+            <button onclick="onGetUserPos()">My location</button>
         </div>
     </header>
 
@@ -44,8 +44,6 @@
         </div>
         <div class="map">
             <div id="map" style="width: 100%; height: 400px;"></div>
-            <!-- <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button> -->
-            <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
         </div>
     </section>
 

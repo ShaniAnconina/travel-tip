@@ -69,13 +69,17 @@ button:hover {
 
 /* ---------------table--------------- */
 
-td, table{
-    border: 1px rgb(156, 156, 156) solid;
+table {
     border-collapse: collapse;
-    margin: 0;
-    padding: 0;
+    text-align: center;
+
 }
 
-table button{
+td {
+    border: 1px rgb(156, 156, 156) solid;
+    min-width: 120px;
+}
+
+table button {
     display: block;
 }
