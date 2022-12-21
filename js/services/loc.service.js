@@ -45,10 +45,3 @@ function getTime() {
 
     return today = dd + '/' + mm + '/' + yyyy;
 }
-
-
-// GET לך תביא
-// REMOVE למחוק
-// SAVE לשמור
-// PUT לעדכן
-// POST להוסיף
