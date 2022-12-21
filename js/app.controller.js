@@ -5,14 +5,26 @@ window.onGetUserPos = onGetUserPos
 window.onRemoveLoc = onRemoveLoc
 window.panTo = panTo
 window.onSearchLoc = onSearchLoc
+window.onCopyLocation = onCopyLocation
 
 function onInit() {
+    const param = locService.getParam()
+    if (param.get('lat') && param.get('lng')) {
+        initMap(+param.get('lat'), +param.get('lng'))
+            .then(() => {
+                renderLoc()
+                console.log('Map is ready')
+            })
+            .catch(() => console.log('Error: cannot init map'))
+        return
+    }
     initMap()
         .then(() => {
             renderLoc()
             console.log('Map is ready')
         })
         .catch(() => console.log('Error: cannot init map'))
+
 }
 
 function renderLoc() {
@@ -32,11 +44,16 @@ function renderLoc() {
         })
 }
 
+function onCopyLocation() {
+    const url = locService.getUrl()
+    navigator.clipboard.writeText(url)
+}
+
 function onSearchLoc(ev) {
     ev.preventDefault()
     locService.getLocBySearch(document.querySelector('.search-box').value)
         .then(loc => {
-            panTo(loc.results[0].geometry.location)
+            panTo(loc.results[0].geometry.location.lat , loc.results[0].geometry.location.lng)
         })
     clearBoxSearch()
 }
@@ -91,11 +108,13 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                     .then(renderLoc)
             })
         })
+
 }
 
 function panTo(lat, lng) {
     var laLatLng = new google.maps.LatLng(lat, lng)
     gMap.panTo(laLatLng)
+    locService.setLoc(lat, lng)
 }
 
 function _connectGoogleApi() {

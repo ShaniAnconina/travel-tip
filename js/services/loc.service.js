@@ -4,15 +4,35 @@ export const locService = {
     getLocs,
     addLoc,
     removeLoc,
-    getLocBySearch
+    getLocBySearch,
+    getUrl,
+    getParam,
+    setLoc
 }
 
+
+let gLat
+let gLng
 const API_KEY = 'AIzaSyD2BO1ZuhBV_3IMU5L1VTCoB_c0rRFCkcM'
 const LOC_KEY = 'locDB'
 
 function getLocBySearch(place) {
     return fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${place}&key=${API_KEY}`).then((res) => res.json())
 }
+
+function getParam() {
+    return new URLSearchParams(window.location.search)
+}
+
+function setLoc(lat, lng) {
+    gLat = lat
+    gLng = lng
+}
+
+function getUrl() {
+        return `https://shanianconina.github.io/travel-tip/?lat=${gLat}&lng=${gLng}`
+}
+
 
 function getLocs() {
     return storageService.query(LOC_KEY)
