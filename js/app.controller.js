@@ -14,6 +14,13 @@ function onInit() {
         .catch(() => console.log('Error: cannot init map'))
 }
 
+function renderLoc(locs) {
+    locService.getLocs()
+    .then(locs => {
+        
+    })
+}
+
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
     console.log('Getting Pos')
@@ -50,9 +57,9 @@ function onGetUserPos() {
 function onPanTo() {
     console.log('Panning the Map')
     panTo(35.6895, 139.6917)
-}  
+}
 
-                                                    ////////!MAP!///////////
+////////!MAP!///////////
 // Var that is used throughout this Module (not global)
 var gMap
 
@@ -64,18 +71,18 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 center: { lat, lng },
                 zoom: 15
             })
-            
+
             gMap.addListener("click", (mapsMouseEvent) => {
 
                 //todo creat a new place in the loc-serivce
                 const lat = mapsMouseEvent.latLng.toJSON().lat
                 const lng = mapsMouseEvent.latLng.toJSON().lng
-                addLoc(lat,lng)
-                .then(render)
+                locService.addLoc({ lat, lng })
+                    .then(renderLoc)
                 //todo render the prm to the locations place in the DOM
 
             })
-            
+
         })
 }
 

@@ -15,19 +15,14 @@ const locs = [
 ]
 
 function getLocs() {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(locs)
-        }, 2000)
-    })
+    return storageService.query(LOC_KEY)
 }
 
 function addLoc(loc) {
-    if (loc.id) {
-        return storageService.put(PET_KEY, loc)
-    } else {
-        return storageService.post(LOC_KEY,loc)
-    }
+    loc.name = prompt('Enter the location name')
+    loc.createdAt = new Date
+    if (loc.id) return storageService.put(LOC_KEY, loc)
+    else return storageService.post(LOC_KEY, loc)
 }
 
 
