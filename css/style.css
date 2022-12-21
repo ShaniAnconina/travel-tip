@@ -1,0 +1,68 @@
+/* SET UP */
+@import url(./setup/vars.css);
+
+/* BASE */
+@import url(./basic/base.css);
+@import url(./basic/helpers.css);
+
+
+button {
+    margin: 0;
+    background-color: var(--clr2);
+    color: var(--clr0);
+    border: 1px solid var(--clr3);
+    height: 35px;
+    width: 120px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--clr3);
+}
+
+.nav {
+    width: 30vw;
+}
+
+.nav form {
+    display: inline-block;
+}
+
+.nav form input {
+    height: 35px;
+}
+
+.nav form button {
+    width: 60px;
+}
+
+/* ---------------grid--------------- */
+
+.main-container {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1.2fr;
+    grid-template-areas:
+        "weather           map"
+        "location-table    map"
+    ;
+}
+
+.weather {
+    grid-area: weather;
+    background-color: var(--clr0);
+    border: 3px solid #385d8a;
+    text-align: center;
+}
+
+.location-table {
+    grid-area: location-table;
+    background-color: #4f81bd;
+    border: 3px solid #385d8a;
+    color: var(--clr0);
+    text-align: center;
+}
+
+.map {
+    grid-area: map;
+}
