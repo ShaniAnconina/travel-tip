@@ -5,21 +5,24 @@ window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onRemoveLoc = onRemoveLoc
+window.panTo = panTo
 window.onSearchLoc = onSearchLoc
 
 function onInit() {
     initMap()
         .then(() => {
+            renderLoc()
             console.log('Map is ready')
         })
         .catch(() => console.log('Error: cannot init map'))
 }
 
-function renderLoc(locs) {
+function renderLoc() {
     locService.getLocs()
-        .then(locs => {
-
-        })
+    .then(locs => {
+        
+    })
 }
 
 function onSearchLoc(ev) {
@@ -72,6 +75,14 @@ function onPanTo() {
     console.log('Panning the Map')
     panTo(35.6895, 139.6917)
 }
+function onRemoveLoc(locId) {
+    locService.removeLoc(locId)
+        .then(renderLoc)
+}
+// function onMoveToLoc(locId) {
+//     locService.moveToLoc(locId)
+//         .then(renderLoc)
+// }
 
 ////////!MAP!///////////
 // Var that is used throughout this Module (not global)

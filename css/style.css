@@ -66,3 +66,16 @@ button:hover {
 .map {
     grid-area: map;
 }
+
+/* ---------------table--------------- */
+
+td, table{
+    border: 1px rgb(156, 156, 156) solid;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+}
+
+table button{
+    display: block;
+}
