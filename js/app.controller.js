@@ -5,6 +5,7 @@ window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onSearchLoc = onSearchLoc
 
 function onInit() {
     initMap()
@@ -16,9 +17,22 @@ function onInit() {
 
 function renderLoc(locs) {
     locService.getLocs()
-    .then(locs => {
-        
-    })
+        .then(locs => {
+
+        })
+}
+
+function onSearchLoc(ev) {
+    ev.preventDefault()
+    locService.getLocBySearch(document.querySelector('.search-box').value)
+        .then(loc => {
+            panTo(loc.results[0].geometry.location)
+        })
+    clearBoxSearch()
+}
+
+function clearBoxSearch() {
+    document.querySelector('.search-box').value = ''
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -62,6 +76,7 @@ function onPanTo() {
 ////////!MAP!///////////
 // Var that is used throughout this Module (not global)
 var gMap
+const API_KEY = 'AIzaSyD2BO1ZuhBV_3IMU5L1VTCoB_c0rRFCkcM'
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     return _connectGoogleApi()
@@ -73,16 +88,11 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             })
 
             gMap.addListener("click", (mapsMouseEvent) => {
-
-                //todo creat a new place in the loc-serivce
                 const lat = mapsMouseEvent.latLng.toJSON().lat
                 const lng = mapsMouseEvent.latLng.toJSON().lng
                 locService.addLoc({ lat, lng })
                     .then(renderLoc)
-                //todo render the prm to the locations place in the DOM
-
             })
-
         })
 }
 
@@ -102,7 +112,6 @@ function panTo(lat, lng) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = 'AIzaSyCj9jbmYp9q4hOBCC3i4e1PUZjRz6KcbqY'
     var elGoogleApi = document.createElement('script')
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`
     elGoogleApi.async = true

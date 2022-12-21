@@ -13,8 +13,8 @@
     <header class="flex space-between">
         <h1>TravelTip</h1>
         <div class="nav">
-            <form>
-                <input type="text" placeholder="Enter location">
+            <form onsubmit="onSearchLoc(event)">
+                <input class="search-box" type="text" placeholder="Enter location">
                 <button>GO</button>
             </form>
             <button>My location</button>
